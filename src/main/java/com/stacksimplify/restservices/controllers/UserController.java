@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -30,13 +31,15 @@ import com.stacksimplify.restservices.services.UserService;
 // Controller
 @RestController
 @Validated
+@RequestMapping(value = "/users") // mapping para todos los mètodos del controlador
 public class UserController {
 
 	// Autowire the UserService
 	@Autowired
 	private UserService userService;
 
-	@GetMapping("/users")
+//	@GetMapping("/users") // mapping solo de este controlador
+	@GetMapping // sin valor de url porque ya tiene el @RequestMapping
 	// getAllUsers Method
 	public List<User> getAllUsers() {
 		return userService.getAllUsers();
@@ -53,7 +56,8 @@ public class UserController {
 	 */
 
 	// createUser with Location Header
-	@PostMapping("/users")
+//	@PostMapping("/users") // mapping solo de este controlador
+	@PostMapping // sin valor de url porque ya tiene el @RequestMapping
 	public ResponseEntity<Void> createUser(@Valid @RequestBody User user, UriComponentsBuilder builder) {
 		try {
 			userService.createUser(user);
@@ -66,7 +70,8 @@ public class UserController {
 	}
 
 	// Get User by Id
-	@GetMapping("/users/{id}")
+//	@GetMapping("/users/{id}") // mapping solo de este controlador
+	@GetMapping("/{id}")
 	public Optional<User> getUserById(@PathVariable("id") @Min(1) Long id) {
 		try {
 			return userService.getUserById(id);
@@ -76,7 +81,8 @@ public class UserController {
 	}
 
 	// Update user by Id
-	@PutMapping("/users/{id}")
+	// @PutMapping("/users/{id}") // mapping solo de este controlador
+	@PutMapping("/{id}")
 	public User updateUserById(@PathVariable("id") Long id, @RequestBody User user) {
 		try {
 			return userService.updateUserById(id, user);
@@ -86,20 +92,22 @@ public class UserController {
 	}
 
 	// Delete user by Id
-	@DeleteMapping("users/{id}")
+//	@DeleteMapping("users/{id}") // mapping solo de este controlador
+	@DeleteMapping("/{id}")
 	public void deleteUserById(@PathVariable("id") Long id) {
 		userService.deleteUserById(id);
 	}
 
 	// Get User by Username
-	@GetMapping("users/byusername/{username}")
+//	@GetMapping("users/byusername/{username}") // mapping solo de este controlador
+	@GetMapping("/byusername/{username}")
 	public User getUserByUsername(@PathVariable("username") String username) throws UserNameNotFoundException {
 		User user = userService.getUserByUsername(username);
-		
-		if(user == null) {
+
+		if (user == null) {
 			throw new UserNameNotFoundException("Username: '" + username + "' not found int UserRepository");
 		}
-		
+
 		return user;
 	}
 }

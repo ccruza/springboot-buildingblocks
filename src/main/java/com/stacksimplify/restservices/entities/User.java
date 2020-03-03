@@ -1,50 +1,55 @@
 package com.stacksimplify.restservices.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-// Entity
+//Entity 
 @Entity
-// @Table(name="User", schema = "usermanagement")
-@Table(name="user")
+//@Table(name="User", schema = "usermanagement")
+@Table(name = "user")
 public class User {
-	
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
-	@NotEmpty(message = "Username es un campo obligatorio. Por favor, ingrese el username.")
+
+	@NotEmpty(message = "Username is Mandatory field. Please provide username")
 	@Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
 	private String username;
-	
-	@Size(min=2,message="El apellido debe tener al menos 2 caracteres")
-	@Column(name="FIRST_NAME", length = 50, nullable = false)
+
+	@Size(min = 2, message = "FirstName should have atleast 2 characters")
+	@Column(name = "FIRST_NAME", length = 50, nullable = false)
 	private String firstname;
-	
-	@Column(name="LAST_NAME", length = 50, nullable = false)
+
+	@Column(name = "LAST_NAME", length = 50, nullable = false)
 	private String lastname;
-	
-	@Column(name="EMAIL_ADDRESS", length = 50, nullable = false)
+
+	@Column(name = "EMAIL_ADDRESS", length = 50, nullable = false)
 	private String email;
-	
-	@Column(name="ROLE", length = 50, nullable = false)
+
+	@Column(name = "ROLE", length = 50, nullable = false)
 	private String role;
-	
+
 	@Column(name = "SSN", length = 50, nullable = false, unique = true)
 	private String ssn;
 
-	// No args constructor
+	@OneToMany(mappedBy = "user")
+	private List<Order> orders;
+
+	// No Argument Constructor
 	public User() {
 	}
 
-	// Fields constructor
+	// Fields Constructor
 	public User(Long id, String username, String firstname, String lastname, String email, String role, String ssn) {
-		super();
 		this.id = id;
 		this.username = username;
 		this.firstname = firstname;
@@ -54,7 +59,7 @@ public class User {
 		this.ssn = ssn;
 	}
 
-	// getters and setters
+	// Getters and Setters
 	public Long getId() {
 		return id;
 	}
@@ -111,14 +116,19 @@ public class User {
 		this.ssn = ssn;
 	}
 
-	// toString (optional, for bean logging)
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
+	// To String
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", firstname=" + firstname + ", lastname=" + lastname
 				+ ", email=" + email + ", role=" + role + ", ssn=" + ssn + "]";
 	}
-		
-	
-	
-	
+
 }
