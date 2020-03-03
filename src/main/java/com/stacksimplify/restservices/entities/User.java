@@ -13,10 +13,14 @@ import javax.validation.constraints.Size;
 
 import org.springframework.hateoas.ResourceSupport;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 //Entity 
 @Entity
 //@Table(name="User", schema = "usermanagement")
 @Table(name = "user")
+@JsonIgnoreProperties({"firstname","lastname"})
 //public class User { // declaraciòn normal
 public class User extends ResourceSupport { // declaraciòn para HATEOAS
 
@@ -42,6 +46,7 @@ public class User extends ResourceSupport { // declaraciòn para HATEOAS
 	private String role;
 
 	@Column(name = "SSN", length = 50, nullable = false, unique = true)
+	@JsonIgnore
 	private String ssn;
 
 	@OneToMany(mappedBy = "user")
