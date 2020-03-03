@@ -61,7 +61,7 @@ public class UserService {
 			throw new UserNotFoundException("User not found in user repository, provide the correct User Id.");
 		}
 
-		user.setId(id);
+		user.setUserid(id);
 		return userRepository.save(user);
 	}
 

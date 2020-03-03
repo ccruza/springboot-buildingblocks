@@ -71,7 +71,7 @@ public class OrderController {
 
 		Order order = optionalOrder.get();
 
-		if (order.getUser().getId() != userid)
+		if (order.getUser().getUserid() != userid)
 			throw new OrderNotFoundException("Order not found for that user..");
 
 		return order;
